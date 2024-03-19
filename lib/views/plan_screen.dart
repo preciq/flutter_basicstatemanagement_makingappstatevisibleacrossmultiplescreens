@@ -69,6 +69,7 @@ class _PlanScreenState extends State<PlanScreen> {
             int planIndex = planNotifier.value
                 .indexWhere((p) => p.name == currentPlan.name);
 
+            /*
             planNotifier.value = List<Plan>.from(planNotifier.value)
               ..[planIndex] = Plan(
                 name: currentPlan.name,
@@ -78,7 +79,24 @@ class _PlanScreenState extends State<PlanScreen> {
                     complete: selected ?? false,
                   ),
               );
+            */
+
+            List<Task> updatedTasks = List<Task>.from(currentPlan.tasks)
+              ..[index] = Task(
+                description: task.description,
+                complete: selected ?? false,
+              );
+            Plan updatedPlan = Plan(
+              name: currentPlan.name,
+              tasks: updatedTasks
+            );
+
+            planNotifier.value = List<Plan>.from(planNotifier.value)
+              ..[planIndex] = updatedPlan;
+
+            plan = updatedPlan;
           }),
+          
       title: TextFormField(
         initialValue: task.description,
         onChanged: (text) {
